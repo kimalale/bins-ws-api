@@ -10,9 +10,12 @@ app.get('/',(req,res) => {
 
 app.get('/api/:bin', (req, res)=> {
     const bin = req.params.bin
-    const api = `https://bins.ws/search?bins=${bin}`;
+    const params = new URLSearchParams({
+      bins: bin,
+    });
+    const api = `https://bins.ws/`;
     try{
-        fetch(api)
+        fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params.toString() })
         .then(  response => response.text())
         .then(data => {
             data = new JSDOM(data);
